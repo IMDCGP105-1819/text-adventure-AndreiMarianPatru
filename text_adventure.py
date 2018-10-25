@@ -1,7 +1,10 @@
 
 import random
 import time
-
+#player
+playerInv={}
+global currentRoom
+currentRoom=0
 
 #create the rooms
 room=[]
@@ -11,23 +14,24 @@ for i in range(10):
     else:
         a={'apple':random.randint(0,3),'box':random.randint(0,2),'bullet':random.randint(0,5),'map':random.randint(0,1),'knife':random.randint(0,1)}
     room.append(dict(a))
-rightroom=random.randint(1,10)
-print(rightroom)
+rightroom=random.randint(1,9)
+#print(rightroom)
 room[rightroom].update({'THE GOLEDN DONUTS':1})
-print(room[rightroom])
+#print(room[rightroom])
 #some code to make sure the rooms are created right
-def nouse():
-
-    for i in range(10):
-        print('room',i,'apple',room[i].get('apple'),'boxes',room[i].get('box'))
-    print(room[5])
-    room[5]['apple']=6
-    print(room[5])
+#def nouse():
+ #
+   # for i in range(10):
+    #    print('room',i,'apple',room[i].get('apple'),'boxes',room[i].get('box'))
+    #print(room[5])
+    #room[5]['apple']=6
+    #print(room[5])
 #nouse()
 
 #basic commands
 def go_up():
-    if currentRoom>=9:
+    global currentRoom
+    if  currentRoom>=9:
         time.sleep(1)
         print("You can't go higher! ")
     else:
@@ -35,6 +39,7 @@ def go_up():
         time.sleep(1)
         print("You are now in room ",currentRoom)
 def go_down():
+    global currentRoom
     if currentRoom<=1:
         time.sleep(1)
         print("You can't go lower! ")
@@ -43,6 +48,7 @@ def go_down():
     else:
         currentRoom -=2
 def go_left():
+    global currentRoom
     if currentRoom%2==0:
         time.sleep(1)
         print("There is no door on that wall ")
@@ -51,6 +57,7 @@ def go_left():
         time.sleep(1)
         print("You are now in room ",currentRoom)
 def go_right():
+    global currentRoom
     if currentRoom%2==1:
         time.sleep(1)
         print("There is no door on that wall ")
@@ -97,7 +104,7 @@ def look_item(key):
             print('You are watching a box of chocolates')
             time.sleep(1)
             print("All you can get from is some extra weight")
-        elif key=='bullets':
+        elif key=='bullet':
             time.sleep(1)
             print('You are watching a rusty bullet')
             time.sleep(1)
@@ -141,42 +148,49 @@ def use_donuts():
     else:
         time.sleep(1)
         print("Your adventure is not finished yet")
+
+
+def take_item(key):
+    i=currentRoom
+    room[i][key]-=1
+    playerInv[key]+=1
+
+
             
-#player
-playerInv={}
-currentRoom=0
+
 
     
 #some little talk to let the player know his task
-print("Greetings!")
-time.sleep(1)
-print("Your name is Bob. ")
-time.sleep(1)
-print("Your sole purpose in life is to eat the GOLDEN DONUTS!!!")
-time.sleep(1)
-print("After years of research you found out they are hidden in the Great GOLDEN CASTLE ")
-time.sleep(1)
-print("I guess you know what you have to do now, if not you will figure something out")
-time.sleep(1)
-falsename=input("Enter your name: ")
-time.sleep(1)
-if falsename !="Bob":
-    print("...")
-    time.sleep(1)
-    print("I just told you your name is Bob, please pay attention")
-    time.sleep(1)
-    print("Anyway, let's begin")
-else:
-    print("Oh, I see you are a clever adventurer")
-    time.sleep(1)
-    print("Let's begin")
-    time.sleep(1)
-time.sleep(1)
-print("You enter in the Great GOLDEN CASTLE")
-time.sleep(1)
-print("You see 5 doors on your left and 5 doors on your right")
-time.sleep(1)
-print("You enter the first one on the left")
+
+#print("Greetings!")
+#time.sleep(1)
+#print("Your name is Bob. ")
+#time.sleep(1)
+#print("Your sole purpose in life is to eat the GOLDEN DONUTS!!!")
+#time.sleep(1)
+#print("After years of research you found out they are hidden in the Great GOLDEN CASTLE ")
+#time.sleep(1)
+#print("I guess you know what you have to do now, if not you will figure something out")
+#time.sleep(1)
+#falsename=input("Enter your name: ")
+#time.sleep(1)
+#if falsename !="Bob":
+ #   print("...")
+ #   time.sleep(1)
+ #   print("I just told you your name is Bob, please pay attention")
+ #   time.sleep(1)
+ #   print("Anyway, let's begin")
+#else:
+ #   print("Oh, I see you are a clever adventurer")
+  #  time.sleep(1)
+  #  print("Let's begin")
+   # time.sleep(1)
+#time.sleep(1)
+#print("You enter in the Great GOLDEN CASTLE")
+#time.sleep(1)
+#print("You see 5 doors on your left and 5 doors on your right")
+#time.sleep(1)
+#print("You enter the first one on the left")
 
 #main loop
 while True:
@@ -194,6 +208,7 @@ while True:
         print("'look' gets you a shot description of a item which is in your inventory or in the current room ")
         print("'drop ' drop a certain item which is in your inventory ")
         print(" 'use' uses a specific item in your inventory")
+        print("'take' will take an item from current room and will put in in your inventory")
         command=input("Enter your command: ")
     else:
         time.sleep(1)
@@ -202,4 +217,43 @@ while True:
         go_up()
     elif command=='s':
         go_down()
+    elif command=='a':
+        go_left()
+    elif command=='d':
+        go(right)
+    elif command=='lookroom':
+        lookroom()
+    elif command=='look':
+        time.sleep(1)
+        item=input("Which item?")
+        look_item(item)
+    elif command=='drop':
+        time.sleep(1)
+        item=input("Which item?")
+        drop_item(item)
+    elif command=='use':
+        time.sleep(1)
+        item=input("Which item?")
+        j=list(playerInv.keys())
+        if item not in j:
+            time.sleep(1)
+            print("You don't have that item in your inventory")
+        else:
+            if item=="apple":
+                use_apple()
+            elif item=='map':
+                use_maps()
+            elif  item=="THE GOLDEN DONUTS":
+                use_donuts()
+            else:
+                time.sleep(1)
+                print("OK")
+    elif command=='take':
+        time.sleep(1)
+        item=input("Which item?")
+        take_item(item)
+        
+        
+
+
 
