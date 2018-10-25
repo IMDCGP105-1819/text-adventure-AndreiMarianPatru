@@ -1,3 +1,4 @@
+
 import random
 import time
 
@@ -31,10 +32,14 @@ def go_up():
         print("You can't go higher! ")
     else:
         currentRoom +=2
+        time.sleep(1)
+        print("You are now in room ",currentRoom)
 def go_down():
     if currentRoom<=1:
         time.sleep(1)
         print("You can't go lower! ")
+        time.sleep(1)
+        print("You are now in room ",currentRoom)
     else:
         currentRoom -=2
 def go_left():
@@ -43,12 +48,16 @@ def go_left():
         print("There is no door on that wall ")
     else:
         currentRoom -=1
+        time.sleep(1)
+        print("You are now in room ",currentRoom)
 def go_right():
     if currentRoom%2==1:
         time.sleep(1)
         print("There is no door on that wall ")
     else:
         currentRoom +=1
+        time.sleep(1)
+        print("You are now in room ",currentRoom)
 
 def lookroom():
     i=currentRoom
@@ -171,6 +180,7 @@ print("You enter the first one on the left")
 
 #main loop
 while True:
+    invlist=list(playerInv.keys())
     time.sleep(1)
     print("Do you wanna see a list of commands?")
     yn=input("y/n?")
@@ -181,8 +191,15 @@ while True:
         print("'d' gets you in the eastern room")
         print("'a' gets you in the western room ")
         print("'lookroom' gets you a list of items in your current room ")
-        print("'look [ item ]' gets you a shot description of a item which is in your inventory or in the current room ")
-        print("'drop [item]' drop a certain item which is in your inventory ")
-
-
+        print("'look' gets you a shot description of a item which is in your inventory or in the current room ")
+        print("'drop ' drop a certain item which is in your inventory ")
+        print(" 'use' uses a specific item in your inventory")
+        command=input("Enter your command: ")
+    else:
+        time.sleep(1)
+        command=input("Well than, enter your command: ")
+    if command=="w":
+        go_up()
+    elif command=='s':
+        go_down()
 
