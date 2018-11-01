@@ -197,7 +197,8 @@ def restart():
     rooms()
     playerInv=dict((k,0) for k in playerInv)
     currentRoom=0
-    print("A new adventure is startin now")
+    print("A new adventure is starting now")
+    intro()
 
 
 def take_item(key):
