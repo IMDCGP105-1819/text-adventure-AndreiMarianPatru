@@ -30,17 +30,6 @@ def rooms():
     rightroom=random.randint(7,9)
     room[rightroom].update({'THE GOLEDN DONUTS':1})
 
-
-#some code to make sure the rooms are created right
-def nouse():
- 
-    for i in range(10):
-        print('room',i,'apple',room[i].get('apple'),'boxes',room[i].get('box'))
-    print(room[5])
-    room[5]['apple']=6
-    print(room[5])
-#nouse()
-
 #basic commands
 def go_up():
     global currentRoom
@@ -117,8 +106,6 @@ def commands():
     print("'take' will take an item from current room and will put in in your inventory")
     print("'restart' will restart your adventure")
 
-
-
 def look_item(key):
     j=list(playerInv.keys())
     i=currentRoom
@@ -175,7 +162,6 @@ def use_apple():
         time.sleep(1)
         print("You don't have any apples, go and search some")
 
-
 def use_maps():
     if playerInv['map']>=4:
         time.sleep(1)
@@ -183,7 +169,6 @@ def use_maps():
     else:
         time.sleep(1)
         print("You don't have enough pieces, go and search some")
-
 
 def use_donuts():
     global currentRoom
@@ -202,8 +187,6 @@ def use_donuts():
         if restart=="no":
             time.sleep()
             print("All you can do now is explore and grab things")
-
-
     else:
         time.sleep(1)
         print("Your adventure is not finished yet")
@@ -235,6 +218,7 @@ def inventory():
             if int(values[j])>0:
                 print(keys[j]," ",values[j])
    
+
 #some little talk to let the player know his task
 def intro():
     print("Greetings!")
@@ -273,7 +257,6 @@ intro()
 
 
 #main loop
-
 while True:
     invlist=list(playerInv.keys())
     #time.sleep(1)
