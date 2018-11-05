@@ -29,6 +29,7 @@ def rooms():
     rightroom=random.randint(7,9)
     room[rightroom].update({'THE GOLEDN DONUTS':1})
 
+<<<<<<< HEAD
 
 #some code to make sure the rooms are created right
 def nouse():
@@ -37,6 +38,8 @@ def nouse():
     print(room[5])
 #nouse()
 
+=======
+>>>>>>> 9b51663436a40bbffcf84af078c554627c676bb0
 #basic commands
 def commands():
     time.sleep(1)
@@ -122,6 +125,33 @@ def lookroom():
             if int(values[j])>0:
                 print(keyss[j]," ",values[j])
 
+<<<<<<< HEAD
+=======
+def use_gun():
+    if playerInv['bullet']==0:
+        time.sleep(1)
+        print("A gun wiyhout bullets is useless")
+        time.sleep(1)
+        print("Go and search some bullets")
+    else:
+        time.sleep(1)
+        print("RATATATA!!!")
+        playerInv['bullet']-=1
+
+def commands():
+    time.sleep(1)
+    print("'w' gets you in northen room")
+    print("'s' gets you in the southern room")
+    print("'d' gets you in the eastern room")
+    print("'a' gets you in the western room ")
+    print("'lookroom' gets you a list of items in your current room ")
+    print("'look' gets you a short description of an item which is in your inventory or in the current room ")
+    print("'drop ' drop a certain item which is in your inventory ")
+    print("'use' uses a specific item in your inventory")
+    print("'take' will take an item from current room and will put in in your inventory")
+    print("'restart' will restart your adventure")
+
+>>>>>>> 9b51663436a40bbffcf84af078c554627c676bb0
 def look_item(key):
     j=list(playerInv.keys())
     i=currentRoom
@@ -238,10 +268,26 @@ def restart():
     rooms()
     playerInv=dict((k,0) for k in playerInv)
     currentRoom=0
-    print("A new adventure is startin now")
+    print("A new adventure is starting now")
+    intro()
 
 
 
+<<<<<<< HEAD
+=======
+def inventory():
+    keys=list(playerInv.keys())
+    values=list(playerInv.values())
+    if sum(values)==0:
+        time.sleep(1)
+        print("There is nothing in your invenotry, go and search some stuff")
+    else:
+        for j in range(len(playerInv)):
+            if int(values[j])>0:
+                print(keys[j]," ",values[j])
+   
+
+>>>>>>> 9b51663436a40bbffcf84af078c554627c676bb0
 #some little talk to let the player know his task
 def intro():
     print("Greetings!")
