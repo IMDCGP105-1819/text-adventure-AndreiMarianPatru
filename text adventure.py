@@ -20,6 +20,7 @@ global currentRoom
 currentRoom=0
 roomNames=["THE GREAT HALL","THE LORDS & LADIES CHAMBER","THE SOLAR","THE WARDROBE","THE BOWER","THE MINSTREL'S GALLERY","THE THRONE ROOM","THE BATHROOM","THE KITCHEN","THE BUTTERY"]
 
+
 def rooms():
     room=[]
     for i in range(10):
@@ -34,10 +35,10 @@ def rooms():
 #basic commands
 def commands():
     time.sleep(1)
-    print("'w' gets you in northen room")
-    print("'s' gets you in the southern room")
-    print("'d' gets you in the eastern room")
-    print("'a' gets you in the western room ")
+    print("'go up' gets you in northen room")
+    print("'go down' gets you in the southern room")
+    print("'go right' gets you in the eastern room")
+    print("'go left' gets you in the western room ")
     print("'lookroom' gets you a list of items in your current room ")
     print("'look <object>' gets you a short description of an item which is in your inventory or in the current room ")
     print("'drop <object>' drop a certain item which is in your inventory ")
@@ -114,76 +115,59 @@ def lookroom():
             if int(values[j])>0:
                 print(keyss[j]," ",values[j])
 
-def use_gun():
-    if playerInv['bullet']==0:
+def use_gun(key):
+    if playerInv['bullet']==0 and room[currentRoom]['bullet']==0:
         time.sleep(1)
         print("A gun wiyhout bullets is useless")
         time.sleep(1)
         print("Go and search some bullets")
+    elif playerInv['bullet']>0:
+        playerInv['bullet']-=1
     else:
+        room[currentRoom]['bullet']-=1
         time.sleep(1)
         print("RATATATA!!!")
-        playerInv['bullet']-=1
+        room[currentRoom][key]-=1
+        time.sleep(1)
+        print("The ",key,' is now gone')
 
-def commands():
-    time.sleep(1)
-    print("'w' gets you in northen room")
-    print("'s' gets you in the southern room")
-    print("'d' gets you in the eastern room")
-    print("'a' gets you in the western room ")
-    print("'look' gets you a list of items in your current room ")
-    print("'look <item>' gets you a short description of an item which is in your inventory or in the current room ")
-    print("'drop <item> ' drop a certain item which is in your inventory ")
-    print("'use <item>' uses a specific item in your inventory")
-    print("'take <item>' will take an item from current room and will put in in your inventory")
-    print("'restart' will restart your adventure")
 
 def look_item(key):
-    j=list(playerInv.keys())
-    i=currentRoom
-    keys=list(room[i].keys())
-    k=j+keys
-    if key not in k :
+    if key=='apple':
         time.sleep(1)
-        print("You don't have that item and there is none in your current room")
-    else:
-        if key=='apple':
-            time.sleep(1)
-            print("You are looking at a delicious apple")
-            time.sleep(1)
-            print("If you use this apple you will gain a random object from your inventory ")
-        elif key=='knife':
-            time.sleep(1)
-            print('You are looking at a sharp knife')
-            time.sleep(1)
-            print("It doesn't do much, but your wife would be happy if you bring it back home. ")
-        elif key=="map":
-            time.sleep(1)
-            print("You are looking at an old map.")
-            time.sleep(1)
-            print("When you find 4 pieces of it you will know the right room.")
-        elif key=='box':
-            time.sleep(1)
-            print('You are looking at a box of chocolates')
-            time.sleep(1)
-            print("All you can get from it is some extra weight")
-        elif key=='bullet':
-            time.sleep(1)
-            print('You are looking at a rusty bullet')
-            time.sleep(1)
-            print('It can be used to shoot...')
-            time.sleep(1)
-            print("nothing because this is a child-friendly game")
-        elif key=='gun':
-            time.sleep(1)
-            print("You are looking at a rusty gun")
-            time.sleep(1)
-            print("You can use it to shoot a thing in your room")
-        elif key=='DONUTS':
-            time.sleep(1)
-            print("You are looking at THE GOLDEN DONUTS")
-            time.sleep(1)
-            
+        print("You are looking at a delicious apple")
+        time.sleep(1)
+        print("If you use this apple you will gain a random object from your inventory ")
+    elif key=='knife':
+        time.sleep(1)
+        print('You are looking at a sharp knife')
+        time.sleep(1)
+        print("It doesn't do much, but your wife would be happy if you bring it back home. ")
+    elif key=="map":
+        time.sleep(1)
+        print("You are looking at an old map.")
+        time.sleep(1)
+        print("When you find 4 pieces of it you will know the right room.")
+    elif key=='box':
+        time.sleep(1)
+        print('You are looking at a box of chocolates')
+        time.sleep(1)
+        print("All you can get from it is some extra weight")
+    elif key=='bullet':
+        time.sleep(1)
+        print('You are looking at a rusty bullet')
+        time.sleep(1)
+        print('It can be used to shoot things')
+    elif key=='gun':
+        time.sleep(1)
+        print("You are looking at a rusty gun")
+        time.sleep(1)
+        print("You can use it to shoot a thing in your room")
+    elif key=='DONUTS':
+        time.sleep(1)
+        print("You are looking at THE GOLDEN DONUTS")
+        time.sleep(1)
+
 
 def take_item(key):
     i=currentRoom
@@ -192,41 +176,30 @@ def take_item(key):
     time.sleep(1)
     print("OK")
 
-def use_gun(key):
-    unshootable=['gun','bullet','knife','DONUTS']
-    if playerInv['bullet']==0:
-        time.sleep(1)
-        print("A gun wiyhout bullets is useless")
-        time.sleep(1)
-        print("Go and search some bullets")
-    else:
-        if key in unshootable:
-            time.sleep(1)
-            print("There is no point in shooting that, try something else")
-        else:
-            print("RATATATA!!!")
-            playerInv['bullet']-=1
-            room[currentRoom][key]-=1
-            print("The ",key,"is now gone" )
-
 def use_apple():
-    if playerInv['apple']>=1:
-        pinv=list(playerInv.keys())
-        newitem=random.choice(pinv)
-        playerInv[newitem]+=1
-        time.sleep(1)
-        print("Wow, you got a new ",str(newitem))
+    pinv=list(playerInv.keys())
+    newitem=random.choice(pinv)
+    playerInv[newitem]+=1
+    time.sleep(1)
+    print("Wow, you got a new ",str(newitem))
+    time.sleep(1)
+    print("You now have  ",playerInv['apple']," apples")
+    if playerInv['apple']>0:
         playerInv['apple']-=1
-        time.sleep(1)
-        print("You now have  ",playerInv['apple']," apples")
     else:
-        time.sleep(1)
-        print("You don't have any apples, go and search some")
+        room[currentRoom]['apple']-=1
+
+
 
 def use_maps():
-    if playerInv['map']>=4:
+    if playerInv['map']+room[currentRoom]['map']>=4:
         time.sleep(1)
         print("The donuts are in",str(roomNames[rightroom]),'!')
+        if playerInv['map']<=4:
+            room[currentRoom]['map']=4-playerInv['map']
+            playerInv['map']=0
+        else:
+            playerInv['map']-=4
     else:
         time.sleep(1)
         print("You don't have enough pieces, go and search some")
@@ -235,17 +208,17 @@ def use_donuts():
     global currentRoom
     global playerInv
     global room
-    if playerInv['DONUTS']==1:
+    if playerInv['DONUTS']==1 or room[currentRoom]['DONUTS']==1:
         time.sleep(1)
         print("You can now fulfill your destiny, enjoy them")
         print("------")
         print()
         print()
         print()
-        restart=input("Do you wanna play again? yes/no")
-        if restart=='yes':
+        answer=str(input("Do you wanna play again? yes/no "))
+        if answer=='yes':
             restart()
-        if restart=="no":
+        if answer=="no":
             time.sleep()
             print("All you can do now is explore and grab things")
     else:
@@ -257,7 +230,7 @@ def restart():
     global playerInv
     global room
     rooms()
-    playerInv=dict((k,0) for k in playerInv)
+    playerInv={'apple':0,'box':0,'bullet':0,'map':0,'knife':0,'DONUTS':0,'gun':1}
     currentRoom=0
     print("A new adventure is starting now")
     print("Do you want an intro?")
@@ -265,16 +238,6 @@ def restart():
     if ans=='y':
         intro()
 
-def inventory():
-    keys=list(playerInv.keys())
-    values=list(playerInv.values())
-    if sum(values)==0:
-        time.sleep(1)
-        print("There is nothing in your invenotry, go and explore")
-    else:
-        for j in range(len(playerInv)):
-            if int(values[j])>0:
-                print(keys[j]," ",values[j])
 
 #some little talk to let the player know his task
 def intro():
@@ -285,8 +248,6 @@ def intro():
     print("Your sole purpose in life is to eat the GOLDEN DONUTS!!!")
     time.sleep(1)
     print("After years of research you found out they are hidden in the Great GOLDEN CASTLE ")
-    time.sleep(1)
-    print("I guess you know what you have to do now, if not you will figure something out")
     time.sleep(1)
     falsename=input("Enter your name: ")
     time.sleep(1)
@@ -324,18 +285,19 @@ while True:
     command=input("What are you going to do now? ")
     splitList=command.split(" ")
     print()
-    if command=="w":
-        go_up()
-    elif command=='s':
-        go_down()
-    elif command=='a':
-        go_left()
-    elif command=='d':
-        go_right()
+    if splitList[0]=='go':
+        if splitList[1]=='up':
+            go_up()
+        elif splitList[1]=='down':
+            go_down()
+        elif splitList[1]=='left':
+            go_left()
+        elif splitList[1]=='right':
+            go_right()
     elif splitList[-1]=='look':
         lookroom()
     elif splitList[0]=='look':
-        if splitList[1] in playerInv and splitList[1] in room[currentRoom]:
+        if splitList[1] in playerInv or splitList[1] in room[currentRoom]:
             if playerInv.get(splitList[1])>0 or room[currentRoom].get(splitList[1])>0:
                 look_item(splitList[1])
         else:
@@ -345,22 +307,24 @@ while True:
         drop_item(splitList[1])
     elif splitList[0]=='use':
         time.sleep(1)
-        item=splitList[1]
         j=list(playerInv.keys())
         k=list(room[currentRoom].keys())
         if item not in j and k :
             time.sleep(1)
             print("That item is not in your inventory or in the current room")
         else:
-            if item=="apple":
+            if splitList[1]=="apple":
                 use_apple()
-            elif item=='map':
+            elif splitList[1]=='map':
                 use_maps()
-            elif  item=="DONUTS":
+            elif  splitList[1]=="DONUTS":
                 use_donuts()
             else:
                 time.sleep(1)
                 print("OK")
+        if playerInv[item]>0:
+            playerInv[item]-=1
+        else:room[currentRoom][item]-=1
     elif splitList[0]=='shoot':
         use_gun(splitList[1])
     elif splitList[0]=='take':
